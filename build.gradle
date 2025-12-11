@@ -1,42 +1,77 @@
+// ===============================
+// Plugins som projektet använder
+// ===============================
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.5'   // samma som i huvudprojektet
+    // Spring Boot plugin
+    id 'org.springframework.boot' version '3.3.5'
+    // Hanterar beroenden
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
+// ===============================
+// Grundinfo om projektet
+// ===============================
 group = 'se.projektarbete'
 version = '0.0.1-SNAPSHOT'
 description = 'microserviceB'
 
+// ===============================
+// Java-version
+// ===============================
 java {
     toolchain {
+        // Vi använder Java 17
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
+// ===============================
+// Inställningar för beroenden
+// ===============================
 configurations {
     compileOnly {
+        // Gör så att annotationProcessor också gäller här
         extendsFrom annotationProcessor
     }
 }
 
+// ===============================
+// Varifrån vi hämtar beroenden
+// ===============================
 repositories {
+    // Maven Central är standard
     mavenCentral()
 }
 
+// ===============================
+// Beroenden (bibliotek) som projektet behöver
+// ===============================
 dependencies {
-    // ===== RUNTIME =====
-    implementation 'org.springframework.boot:spring-boot-starter-amqp'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // ===== RUNTIME =====
+    // Stöd för RabbitMQ
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    // Webbstöd (REST m.m.)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Stöd för att skicka mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // Lombok för att slippa skriva så mycket kod
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     // ===== TEST =====
+    // Vanliga tester i Spring Boot
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Teststöd för RabbitMQ
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
 }
 
+// ===============================
+// Test-inställningar
+// ===============================
 tasks.named('test') {
+    // Använder JUnit 5
     useJUnitPlatform()
 }

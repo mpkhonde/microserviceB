@@ -4,17 +4,23 @@ import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+// ===============================
 // Slår på stöd för RabbitMQ
+// ===============================
 @EnableRabbit
 
-// Säger att det här är ett Spring Boot-projekt
+// ===============================
+// Visar att detta är en Spring Boot-app
+// ===============================
 @SpringBootApplication
 public class MicroserviceBApplication {
 
-    // Här börjar programmet
+    // ===============================
+    // Programmet startar här
+    // ===============================
     public static void main(String[] args) {
 
-        // Startar hela appen
+        // Startar hela programmet
         SpringApplication.run(MicroserviceBApplication.class, args);
     }
 }

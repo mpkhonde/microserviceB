@@ -1,13 +1,24 @@
+# ===============================
+# Basbild (Java 17)
+# ===============================
 FROM eclipse-temurin:17-jdk-alpine
 
-# Skapa arbetskatalog
+# ===============================
+# Mapp där appen ska köras
+# ===============================
 WORKDIR /app
 
-# Kopiera hela jar-filen (den skapas när du kör ./gradlew bootJar)
+# ===============================
+# Kopierar jar-filen som byggs av Gradle
+# ===============================
 COPY build/libs/*.jar app.jar
 
-# Exponera container-porten (Spring Boot kör på 8080)
+# ===============================
+# Port som Spring Boot använder
+# ===============================
 EXPOSE 8080
 
-# Kör appen
+# ===============================
+# Startar programmet
+# ===============================
 ENTRYPOINT ["java", "-jar", "app.jar"]

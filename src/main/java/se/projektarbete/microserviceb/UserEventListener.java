@@ -1,21 +1,33 @@
 package se.projektarbete.microserviceb;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import se.projektarbete.microserviceb.email.EmailService;
+import se.projektarbete.microserviceb.events.UserRegisteredEvent;
 
+// ===============================
+// Lyssnar på meddelanden från RabbitMQ
+// ===============================
+@Component
+@RequiredArgsConstructor
 @Slf4j
-@Service
 public class UserEventListener {
 
-    // När ett meddelande kommer till kön "user.registered"
-    // körs den här metoden automatiskt.
+    // Används för att skicka mail
+    private final EmailService emailService;
+
+    // ===============================
+    // Körs när något skickar ett UserRegisteredEvent
+    // ===============================
     @RabbitListener(queues = "user.registered")
     public void handleUserRegistered(UserRegisteredEvent event) {
 
-        // Här skulle man egentligen skicka ett mail.
-        // Nu skriver vi bara ut info i loggen.
-        log.info("Skulle skicka välkomstmail till {} ({})",
-                event.username(), event.email());
+        // Skriver ut i loggen vad som kom
+        log.info("Fick ett UserRegisteredEvent: {}", event);
+
+        // Skickar ett välkomstmail till den nya användaren
+        emailService.sendRegistrationEmail(event.email(), event.username());
     }
 }
